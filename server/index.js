@@ -9,12 +9,7 @@ app.use('/static', express.static('node_modules/'));
 //define where is html files
 app.use(express.static('client'));
 
-//show a message when user is in main route
-/*app.get('/', function(req, res){
-	res.status(200).send('Hola desde una ruta');
-});*/
-
-
+//Array of messages
 var messages = [{
 	id: 1,
 	text: "Welcome to our chat. ",

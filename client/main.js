@@ -34,7 +34,7 @@ function addmsg(e){
 
 	//prepare object to send it.
 	var msg = {
-		nickname: 'cliente',
+		nickname: $('#name_user').val(),
 		text: $('#new_message').val(),
 	};
 
@@ -43,5 +43,8 @@ function addmsg(e){
 
 	//clean input text
 	$('#new_message').val('');
+
+	//hidden the name user
+	$('#name_user').hide();
 	return false;
 }	

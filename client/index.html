@@ -25,7 +25,8 @@
 			</div>
 			<div class="input-field col s10">
 				<form onsubmit="return addmsg(this);">
-					<input placeholder="Write here your new messages" id="new_message" type="text" class="validate" autocomplete="off">
+					<input placeholder="What is your name?" id="name_user" type="text" class="validate" required autocomplete="off">
+					<input placeholder="Write here your new messages" id="new_message" type="text" class="validate" required autocomplete="off">
 				</div>
 				<div class="input-field col s2">
 					<button class="btn waves-effect waves-light" type="submit" name="action">SEND
@@ -34,6 +35,7 @@
 				</div>
 			</form>
 		</div>
+			<label for="textarea1"><a href="http://www.henryleon.com.ve">Developed by Henry Leon</a></label>
 	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
