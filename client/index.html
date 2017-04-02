@@ -23,19 +23,21 @@
 			<div class="input-field col s12">
 				<div id="messages" class="materialize-textarea"></div>
 			</div>
-			<div class="input-field col s10">
-				<form onsubmit="return addmsg(this);">
+			<form onsubmit="return addmsg(this);" class="col s12 m12 l12">
+				<div class="input-field col s12 m10 l10">
 					<input placeholder="What is your name?" id="name_user" type="text" class="validate" required autocomplete="off">
 					<input placeholder="Write here your new messages" id="new_message" type="text" class="validate" required autocomplete="off">
 				</div>
-				<div class="input-field col s2">
-					<button class="btn waves-effect waves-light" type="submit" name="action">SEND
+				<div class="input-field col s2 m2 l2">
+					<button class="btn waves-effect waves-light " type="submit" name="action">SEND
 						<i class="material-icons right"></i>
 					</button>
 				</div>
 			</form>
 		</div>
-			<label for="textarea1"><a href="http://www.henryleon.com.ve">Developed by Henry Leon</a></label>
+		<div class="row center-align">
+			<label><a href="http://www.henryleon.com.ve" target="_blank">Developed by Henry Leon</a></label>
+		</div>
 	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
