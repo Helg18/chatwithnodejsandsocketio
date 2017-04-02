@@ -23,10 +23,13 @@ function writer(data){
 		if (message.nickname == my_nickname) {
 			my_messages = 'offset-s4 offset-m4 offset-l4';
 			my_color    = 'green darken-4';
+		} else {
+			my_messages = '';
+			my_color    = 'blue-grey darken-1';
 		}
 
 		return (`
-			<div class="col s8 m8 l8 ${my_messages}"">
+			<div class="col s8 m8 l8 ${my_messages}">
 				<div class="card ${my_color}">
 					<div class="card-content white-text">
 						<span class="card-title"> ${message.nickname}</span>
