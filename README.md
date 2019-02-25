@@ -1,21 +1,21 @@
-#Chat with node.js and socket.io.
-##My firt meet with nodejs and socketio.
+# Chat with node.js and socket.io.
+## My firt meet with nodejs and socketio.
 
 
-#Guide
+# Guide
 
-##Step 1
+## Step 1
 Clone this repository
 
-##Step 2
+## Step 2
 npm install
 
-##Step3
+## Step3
 npm start
 
-##Step 4
+## Step 4
 Open your browser on localhost:8888
 
 :)
 
-###http://www.henryleon.com.ve
+###  http://www.henryleon.com.ve
