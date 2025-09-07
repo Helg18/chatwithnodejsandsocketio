@@ -1,65 +1,67 @@
-$('#messages').height('300px');
+// client/main.js
 
-//establishing the conection
-var socket = io.connect('http://52.18.22.122:8000', {'forceNew':true});
-						//change this url to YOUR SERVER  URL
+// Inicializar componentes de Materialize cuando el documento esté listo
+$(document).ready(function () {
+	$('select').material_select();
 
-//listener for messages
-socket.on('messages', function(data){
-	writer(data);
-});
+	// Conectarse al servidor de Socket.IO
+	var socket = io();
 
-
-//runner for display data on chat box
-function writer(data){
-
-	//Var to customize messages
-	var my_nickname = $('#name_user').val();
-	var my_messages = '';
-	var my_color    = 'blue-grey darken-1';
-
-
-	var html = data.map(function(message, index){
-		if (message.nickname == my_nickname) {
-			my_messages = 'offset-s4 offset-m4 offset-l4';
-			my_color    = 'green darken-4';
-		} else {
-			my_messages = '';
-			my_color    = 'blue-grey darken-1';
-		}
-
-		return (`
-			<div class="col s8 m8 l8 ${my_messages}">
-				<div class="card ${my_color}">
-					<div class="card-content white-text">
-						<span class="card-title"> ${message.nickname}</span>
-						<p>${message.text}</p>
-					</div>
-				</div>
-			</div> 
-			`);
+	// Manejar conexión
+	socket.on('connect', function () {
+		console.log('Conectado al servidor');
+		Materialize.toast('Conectado al chat', 2000);
 	});
-	$("#messages").html(html);
-	document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 
-}
+	// Manejar desconexión
+	socket.on('disconnect', function () {
+		console.log('Desconectado del servidor');
+		Materialize.toast('Desconectado del chat', 2000);
+	});
 
-//catpch the event when user
-function addmsg(e){
+	// Recibir mensajes
+	socket.on('messages', function (messages) {
+		var messagesContainer = document.getElementById('messages');
+		messagesContainer.innerHTML = '';
 
-	//prepare object to send it.
-	var msg = {
-		nickname: $('#name_user').val(),
-		text: $('#new_message').val(),
-	};
+		// Recorriendo el arreglo de mensajes
+		messages.forEach(function (message) {
+			// creando un nuevo elemento div para agregar el contenido de los mensajes
+			var messageElement = document.createElement('div');
+			messageElement.innerHTML = '<strong>' + message.nickname + ':</strong> ' + message.text;
+			messageElement.className = 'message';
 
-	//sending the new msg to server with flag 'add-msg'
-	socket.emit('add-msg', msg);
+			// Agregando el hijo al contenedor de mensajes
+			messagesContainer.appendChild(messageElement);
+		});
 
-	//clean input text
-	$('#new_message').val('');
+		// Scroll al final de los mensajes
+		messagesContainer.scrollTop = messagesContainer.scrollHeight;
+	});
 
-	//hidden the name user
-	$('#name_user').hide();
-	return false;
-}	
+	// Enviar mensaje
+	document.getElementById('message-form').addEventListener('submit', function (e) {
+		e.preventDefault();
+
+		var messageInput = document.getElementById('message-input');
+		var nicknameInput = document.getElementById('nickname-input');
+
+		// Validando que no se envien campos vacios
+		if (messageInput.value && nicknameInput.value) {
+
+			// Enviando mensajes al socket
+			socket.emit('add-msg', {
+				text: messageInput.value,
+				nickname: nicknameInput.value
+			});
+
+			// Borrar el campo de mensaje
+			messageInput.value = '';
+
+			// Mantener el foco en el campo de mensaje
+			messageInput.focus();
+		} else {
+			Materialize.toast('Por favor, completa ambos campos', 2000);
+		}
+	});
+});

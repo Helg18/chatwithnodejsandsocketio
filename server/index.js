@@ -1,33 +1,41 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-//Define statics routes to resources in node_modules
-app.use('/static', express.static('node_modules/'));
+// Servir archivos estáticos desde node_modules
+app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
+app.use('/materialize', express.static(path.join(__dirname, '../node_modules/materialize-css/dist')));
+app.use('/jquery', express.static(path.join(__dirname, '../node_modules/jquery/dist')));
 
-//define where is html files
-app.use(express.static('client'));
+// Servir el cliente de Socket.IO
+app.use('/socket.io', express.static(path.join(__dirname, '../node_modules/socket.io/client-dist')));
 
-//Array of messages
+// Servir archivos del cliente
+app.use(express.static(path.join(__dirname, '../client')));
+
+// Array of messages
 var messages = [{
 	id: 1,
-	text: "Welcome to our chat. ",
+	text: "Welcome to our chat.",
 	nickname: "Bot - HenryLeon.com.ve"
-}]; 
+}];
 
-//Define the socket
-io.on('connection', function(socket){
-	console.log("Un nuevo usuario se ha conectado a nuestro socket"+ socket.handshake.address);
+// Define the socket
+io.on('connection', function (socket) {
+	console.log("Un nuevo usuario se ha conectado a nuestro socket" + socket.handshake.address);
+
+	// Historial de mensajes
 	socket.emit('messages', messages);
 
-	socket.on('add-msg', function(data){
+	// Adding a new message into chat
+	socket.on('add-msg', function (data) {
 		messages.push(data);
-
 		io.sockets.emit('messages', messages);
 	});
 });
 
-server.listen('8000', function(){
+server.listen('8000', function () {
 	console.log('El servidor esta funcionando en localhost:8000');
 });
